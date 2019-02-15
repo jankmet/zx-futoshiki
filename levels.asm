@@ -1,6 +1,18 @@
 
 
 load_level:
+  ; show level info
+  push de
+  call position_at
+  ld de, info1
+  ld bc, eostr1-info1
+  call 8252 ; call string routine
+
+  
+  pop de
+  ld b, 5
+  ld c, 20
+
   call reset_selection_position
   ld hl, levels ; load level 1
   ld b, 4 ; for rows
@@ -114,3 +126,20 @@ levels:
 levels_solutions:
   ; level 1 solution
   defb 4, 1, 3, 2,  2, 3, 4, 1,  3, 2, 1, 4,  1, 4, 2, 3
+
+
+position_at: ; show string 
+  ld a, 2
+	call 5633
+  ld a, 22 ; kod re fukciu AT
+  rst 16
+  ld a, 0 ; cislo riadku
+  rst 16
+  ld a, 24; cislo stplca
+  rst 16
+
+  ret
+ 
+
+info1: defb "Level 1"
+eostr1 equ $
